@@ -18,8 +18,8 @@ public class TextAna {
 		System.out.println(D.containsKey("hi"));
 
 		listFolther();
-		List<bookInfo> l = GetRows();
-		HDicionario hd = getHDicTitle(l);
+		BooksData l = GetRows(100);
+		HDicionario hd = getHDicTitle(l.books);
 		hd.sortValue();
 /*		System.out.println("Prob of " + 1000*hd.probability(""));
 		System.out.println("Prob of currents" + 1000*hd.probability("currents"));
@@ -174,11 +174,13 @@ public class TextAna {
 	}
 	
 	
-	public static List<bookInfo> GetRows() throws Exception, IOException{
+	//public static List<bookInfo> GetRows() throws Exception, IOException{
+	public static BooksData GetRows(int limit) throws Exception, IOException{
+		
 		// TODO Auto-generated method stub
-		List<bookInfo> res= new LinkedList<bookInfo>();
+		//List<bookInfo> res= new LinkedList<bookInfo>();
+		BooksData res =  new BooksData();
 		String line;
-		int limit = 1000;
 		//0      1           2        3        4          5                   6          7         8                9         10                11           12        13    14      15      16      17
 		//"id"	"catName"	"title"	"descr"	"rating"	"nRatings"	"positionInList"	"size"	"pageNum"	"paperPrice"	"kindlePrice"	"hardcPrice"	"r1"	"r2"	"r3"	"r4"	"r5"	"daysSinseRelease"
 		try (
