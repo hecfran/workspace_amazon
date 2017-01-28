@@ -12,32 +12,45 @@ public class TextAna {
 		//System.out.println(clean("32 hola adfadsf 32 hector 33 44"));
 	//	GetTitles();
 		
-		java.util.Hashtable<String, Integer> D=  new java.util.Hashtable<String, Integer>();
+	/*	java.util.Hashtable<String, Integer> D=  new java.util.Hashtable<String, Integer>();
 		D.put("hi", 33)		;
 		System.out.println(D.containsKey("hiaa"));
 		System.out.println(D.containsKey("hi"));
+*/
+//		listFolther();
+		BooksData l = GetRows(-100);
+		HDicionario hd = l.getHDicTitle();		
+		hd.sortAndPrintValues(20);
+		System.out.println("Perplexity: "+ hd.perplexity());
+		System.out.println();
+		
+		String[] list = l.getCategories();
+		System.out.println(list);
 
-		listFolther();
-		BooksData l = GetRows(100);
-		HDicionario hd = getHDicTitle(l.books);
-		hd.sortValue();
+		for(String cat: list){
+			HDicionario di = l.getHDicTitle(cat);
+			System.out.println("Category: "+ cat);
+			System.out.println("Examples: " + di.counter );
+			di.sortAndPrintValues(20);
+			System.out.println("Perplexity: "+ di.perplexity());
+			System.out.println();
+		}
+		
+		System.out.println("END");
+
+		
+		
+		
+		
 /*		System.out.println("Prob of " + 1000*hd.probability(""));
 		System.out.println("Prob of currents" + 1000*hd.probability("currents"));
 		System.out.println("Prob of Facebook" + 1000*hd.probability("facebook"));
 		System.out.println("perplexity" + hd.perplexity());
 */
 	}
-	public static HDicionario getHDicTitle(List<bookInfo> l) {
-		HDicionario hd = new HDicionario();
-		for (bookInfo item : l) {
-			String[]  ws = item.title.split(" ");
-			for (String w : ws) 
-				if (w.length()>0)
-					hd.addWord(w);		   		
-		}
-		return hd;
-	}
-	public static void old() throws FileNotFoundException, IOException{
+
+	/// this is garbage waiting to be removed. 
+	private static void old() throws FileNotFoundException, IOException{
 		String line;
 		//0      1           2        3        4          5                   6          7         8                9         10                11           12        13    14      15      16      17
 		//"id"	"catName"	"title"	"descr"	"rating"	"nRatings"	"positionInList"	"size"	"pageNum"	"paperPrice"	"kindlePrice"	"hardcPrice"	"r1"	"r2"	"r3"	"r4"	"r5"	"daysSinseRelease"
@@ -56,10 +69,16 @@ public class TextAna {
 		}		
 	}
 	
-	public static boolean isNum(char c){
+	private static boolean isNum(char c){
 		return (c >= '0' && c <='9');
 	}
-	public static String reduceNumbers(String s){
+	
+	/**
+	 * Changes numbers to a tag NUM
+	 * @param s
+	 * @return
+	 */
+	private static String reduceNumbers(String s){
 		String l="";
 		boolean Number= false;
 		boolean current = false;
@@ -79,8 +98,12 @@ public class TextAna {
 		return l;
 	}
 	
-	
-	public static String clean (String s){
+	/**
+	 * Clean a string from strange characters
+	 * @param s original string
+	 * @return
+	 */
+	private static String clean (String s){
 		
 		s = s.toLowerCase();
 		s = s.replace(":","");
@@ -207,7 +230,7 @@ public class TextAna {
 		return res;
 	}
 
-	public static void listFolther(){
+	private static void listFolther(){
 		File folder = new File("..");
 		File[] listOfFiles = folder.listFiles();
 
