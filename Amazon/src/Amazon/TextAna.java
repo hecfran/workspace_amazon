@@ -8,6 +8,8 @@ import java.util.List;
 public class TextAna {
 
 	public static void main(String[] args) throws Exception {
+		
+		WikipediaModel.buildModel();
 		// TODO Auto-generated method stub
 		//System.out.println(clean("32 hola adfadsf 32 hector 33 44"));
 	//	GetTitles();
@@ -21,6 +23,7 @@ public class TextAna {
 		BooksData l = GetRows(-100);
 		HDicionario hd = l.getHDicTitle();		
 		hd.sortAndPrintValues(20);
+		hd.saveFile("..\\test.txt");
 		System.out.println("Perplexity: "+ hd.perplexity());
 		System.out.println();
 		
@@ -103,7 +106,7 @@ public class TextAna {
 	 * @param s original string
 	 * @return
 	 */
-	private static String clean (String s){
+	public static String clean (String s){
 		
 		s = s.toLowerCase();
 		s = s.replace(":","");
@@ -163,7 +166,7 @@ public class TextAna {
 		String s2 = "";
 		for(int i = 0 ; i<s.length();i++){
 			char c = s.charAt(i);
-			if (c>= 'a' && c<='z'|| c>= 'A' && c<='Z'|| c == ' ')
+			if (c>= 'a' && c<='z'|| c>= 'A' && c<='Z'|| c == ' '|| c == '\'')
 				s2 += c;
 		}
 

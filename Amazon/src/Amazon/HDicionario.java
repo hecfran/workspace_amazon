@@ -1,5 +1,8 @@
 package Amazon;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,7 +19,26 @@ public class HDicionario {
 			D.put(w, D.get(w)+1);
 		else D.put(w,1);
 	}
-	
+	public void saveFile(String f) throws FileNotFoundException, UnsupportedEncodingException{
+		PrintWriter writer = new PrintWriter(f, "UTF-8");
+		
+		  //Transfer as List and sort it
+	       ArrayList<Map.Entry<String, Integer>> l = new ArrayList<Entry<String, Integer>>(D.entrySet());
+	       Collections.sort(l, new Comparator<Map.Entry<?, Integer>>(){
+
+	           public int compare(Map.Entry<?, Integer> o1, Map.Entry<?, Integer> o2) {
+	              return o1.getValue().compareTo(o2.getValue());
+	          }});
+
+   
+       Collections.reverse(l);
+       
+       for( Map.Entry<String, Integer> e : l){
+    	   writer.println(e.getKey()+"\t" +e.getValue());
+       }
+
+	    writer.close();
+	}
 	public double probability (String s){
 		double p = 0;
 		if (D.containsKey(s))

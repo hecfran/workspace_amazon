@@ -1,6 +1,8 @@
-*.class
-/.metadata
-/.recommenders
-/allCommentForHector.txt
-/oneTableDataForHector.txt
-/Documents
+wikipedia_model.txt
+.metadata
+.recommenders
+raw.en
+Documents
+test.txt
+oneTableDataForHector.txt
+*.txt
