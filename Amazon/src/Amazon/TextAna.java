@@ -109,6 +109,7 @@ public class TextAna {
 	public static String clean (String s){
 		
 		s = s.toLowerCase();
+		s = s.replace("'"," "); 
 		s = s.replace(":","");
 		s = s.replace("("," ");
 		s = s.replace(")"," ");
