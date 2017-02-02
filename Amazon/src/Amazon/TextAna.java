@@ -5,11 +5,14 @@ import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 
+import LanguageTools.WikipediaLanguageModel;
+import LanguageTools.langMod;
+
 public class TextAna {
 
 	public static void main(String[] args) throws Exception {
 		
-		WikipediaModel.buildModel();
+		//WikipediaModel.buildModel();
 		// TODO Auto-generated method stub
 		//System.out.println(clean("32 hola adfadsf 32 hector 33 44"));
 	//	GetTitles();
@@ -20,10 +23,16 @@ public class TextAna {
 		System.out.println(D.containsKey("hi"));
 */
 //		listFolther();
+		
+		WikipediaLanguageModel wlm = new WikipediaLanguageModel();
+		
+		
 		BooksData l = GetRows(-100);
+		checkNewWordsTitle(l,wlm);
+		
 		HDicionario hd = l.getHDicTitle();		
-		hd.sortAndPrintValues(20);
-		hd.saveFile("..\\test.txt");
+		//hd.sortAndPrintValues(20);
+		//hd.saveFile("..\\test.txt");
 		System.out.println("Perplexity: "+ hd.perplexity());
 		System.out.println();
 		
@@ -76,6 +85,22 @@ public class TextAna {
 		return (c >= '0' && c <='9');
 	}
 	
+	
+	
+	public static void checkNewWordsTitle (BooksData bd,langMod lm){
+		for(bookInfo b :bd.books){
+			String[]  ws = b.title.split(" ");
+			for (String w : ws) 
+				if (w.length()>0)
+				{
+					if (!lm.exist(w))
+						System.out.println(w);		
+				}
+						
+		}
+	}
+			
+			
 	/**
 	 * Changes numbers to a tag NUM
 	 * @param s
@@ -211,7 +236,7 @@ public class TextAna {
 		//0      1           2        3        4          5                   6          7         8                9         10                11           12        13    14      15      16      17
 		//"id"	"catName"	"title"	"descr"	"rating"	"nRatings"	"positionInList"	"size"	"pageNum"	"paperPrice"	"kindlePrice"	"hardcPrice"	"r1"	"r2"	"r3"	"r4"	"r5"	"daysSinseRelease"
 		try (
-		    InputStream fis = new FileInputStream("C:\\Users\\hector.franco\\workspace_amazon\\oneTableDataForHector.txt");
+		    InputStream fis = new FileInputStream("..\\oneTableDataForHector.txt");
 		    InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
 		    BufferedReader br = new BufferedReader(isr);
 		) {

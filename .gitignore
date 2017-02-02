@@ -7,3 +7,5 @@ test.txt
 oneTableDataForHector.txt
 *.txt
 *.class
+*.class
+Amazon/bin/Amazon/TextAna.class
