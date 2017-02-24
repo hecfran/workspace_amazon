@@ -9,7 +9,7 @@ import java.util.*;
  *
  */
 public class BooksData {
-	public List<bookInfo> books = new  LinkedList<bookInfo>();
+	public List<bookInfo> books = new  ArrayList<bookInfo>();
 	
 	public void add(bookInfo b){
 		books.add(b);
@@ -23,7 +23,7 @@ public class BooksData {
 		Set<String> s = new HashSet<String>();
 		//List<String> cat = new LinkedList<String>();
 		for(bookInfo b : books){
-			s.add(b.catName);
+			s.add(b.n_catName);
 		}
 		//s.toArray(type String)
 		String[] arr = s.toArray(new String[s.size()]);
@@ -39,9 +39,9 @@ public class BooksData {
 		HDicionario hd = new HDicionario();
 		for (bookInfo item : books) {
 			if(category.length()>0)
-				if (!category.contentEquals(item.catName))// if different cathegory, move to next;
+				if (!category.contentEquals(item.n_catName))// if different cathegory, move to next;
 					continue;
-			String[]  ws = item.title.split(" ");
+			String[]  ws = item.n_title.split(" ");
 			for (String w : ws) 
 				if (w.length()>0)
 					hd.addWord(w);		   		

@@ -9,7 +9,41 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
+/**
+ * Creates a file in which each word that apears on wikipedia data set is counted. 
+ * @author hector.franco
+ *
+ */
 public class WikipediaModel {
+	private final static String modelFile = "..\\wikipedia_model.txt";
+	
+	/**
+	 *
+	 * @param minCounter
+	 * @return
+	 * @throws IOException
+	 */
+	public static java.util.Hashtable<String, Integer> getEnglishDicc(int minCounter) throws IOException{
+		java.util.Hashtable<String, Integer>  res = new java.util.Hashtable<String, Integer> ();
+		String line;
+		try (
+		    InputStream fis = new FileInputStream(modelFile);
+		    InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+		    BufferedReader br = new BufferedReader(isr);
+		) 
+		{
+		    while ((line = br.readLine()) != null) 
+		    {
+		        String[] s = line.split("\t");
+		        int c = Integer.parseInt(s[1]);
+		        if (c>=minCounter)
+		        	res.put(s[0], c);
+		    }
+		}
+		res.put("NUM", minCounter); // FOR NUMBERS
+		return res;		
+	}
+	
 	private static void fold(){
 	File folder = new File("..");
 	File[] listOfFiles = folder.listFiles();
@@ -57,6 +91,6 @@ public class WikipediaModel {
 		    	  }
 		      
 		    }
-			hd.saveFile("..\\wikipedia_model.txt");
+			hd.saveFile(modelFile);
 	}
 }
