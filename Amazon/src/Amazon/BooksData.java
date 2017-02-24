@@ -49,5 +49,8 @@ public class BooksData {
 		return hd;
 	}
 	public  HDicionario getHDicTitle() {return getHDicTitle("");}
+	
+	
+	
 
 }

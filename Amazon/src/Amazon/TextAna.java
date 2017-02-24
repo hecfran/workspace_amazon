@@ -5,6 +5,9 @@ import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 
+import LanguageTools.WikipediaLanguageModel;
+import LanguageTools.langMod;
+
 public class TextAna {
 
 	public static void main(String[] args) throws Exception {
@@ -21,12 +24,19 @@ public class TextAna {
 */
 //		listFolther();
 		
+<<<<<<< HEAD
 		extendTable e = new extendTable();
+=======
+		WikipediaLanguageModel wlm = new WikipediaLanguageModel();
+		
+>>>>>>> origin/master
 		
 		BooksData l = GetRows(-100);
+		checkNewWordsTitle(l,wlm);
+		
 		HDicionario hd = l.getHDicTitle();		
-		hd.sortAndPrintValues(20);
-		hd.saveFile("..\\test.txt");
+		//hd.sortAndPrintValues(20);
+		//hd.saveFile("..\\test.txt");
 		System.out.println("Perplexity: "+ hd.perplexity());
 		System.out.println();
 		
@@ -79,6 +89,22 @@ public class TextAna {
 		return (c >= '0' && c <='9');
 	}
 	
+	
+	
+	public static void checkNewWordsTitle (BooksData bd,langMod lm){
+		for(bookInfo b :bd.books){
+			String[]  ws = b.title.split(" ");
+			for (String w : ws) 
+				if (w.length()>0)
+				{
+					if (!lm.exist(w))
+						System.out.println(w);		
+				}
+						
+		}
+	}
+			
+			
 	/**
 	 * Changes numbers to a tag NUM
 	 * @param s
@@ -112,6 +138,7 @@ public class TextAna {
 	public static String clean (String s){
 		
 		s = s.toLowerCase();
+		s = s.replace("'"," "); 
 		s = s.replace(":","");
 		s = s.replace("("," ");
 		s = s.replace(")"," ");
