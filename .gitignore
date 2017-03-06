@@ -6,10 +6,5 @@ Documents
 test.txt
 oneTableDataForHector.txt
 *.txt
-<<<<<<< HEAD
 *.class
-=======
-*.class
-*.class
-Amazon/bin/Amazon/TextAna.class
->>>>>>> origin/master
+

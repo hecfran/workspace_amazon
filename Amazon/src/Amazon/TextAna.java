@@ -24,12 +24,11 @@ public class TextAna {
 */
 //		listFolther();
 		
-<<<<<<< HEAD
-		extendTable e = new extendTable();
-=======
+		//extendTable e = new extendTable();
+
 		WikipediaLanguageModel wlm = new WikipediaLanguageModel();
 		
->>>>>>> origin/master
+
 		
 		BooksData l = GetRows(-100);
 		checkNewWordsTitle(l,wlm);
@@ -93,7 +92,7 @@ public class TextAna {
 	
 	public static void checkNewWordsTitle (BooksData bd,langMod lm){
 		for(bookInfo b :bd.books){
-			String[]  ws = b.title.split(" ");
+			String[]  ws = b.n_title.split(" ");
 			for (String w : ws) 
 				if (w.length()>0)
 				{

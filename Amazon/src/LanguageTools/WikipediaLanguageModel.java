@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
 import Amazon.TextAna;
 
 public class WikipediaLanguageModel implements langMod {
-	private String file = "..\\wikipedia_model_k2.txt" ; // File containing the table of words that apear at least 2 times.
+	private String file = "..\\wikipedia_model.txt" ; // File containing the table of words that apear at least 2 times.
 	private java.util.Hashtable<String, Integer> D = new java.util.Hashtable<String, Integer>();
 	public final int counter;
 	
