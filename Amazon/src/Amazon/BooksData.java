@@ -15,6 +15,58 @@ public class BooksData {
 		books.add(b);
 	}
 	
+	public  double avgLengthWords(String category) {
+		double counter = 0;
+		double avg = 0;
+		for (int i = 0 ; i<books.size();i++){
+			if (!books.get(i).n_catName.contentEquals(category)) continue;
+			avg += books.get(i).title_amount_words;
+			counter++;
+		}
+		if (counter>0)
+			return avg/counter;
+		else return -1;
+	}
+
+	public  double avgCharactersTitle(String category) {
+		double counter = 0;
+		double avg = 0;
+		for (int i = 0 ; i<books.size();i++){
+			if (!books.get(i).n_catName.contentEquals(category)) continue;
+			avg += books.get(i).n_title.length();
+			counter++;
+		}
+		if (counter>0)
+			return avg/counter;
+		else return -1;
+	}
+	
+	public  double avgMeaninfulWordsTitle(String category) {
+		double counter = 0;
+		double avg = 0;
+		for (int i = 0 ; i<books.size();i++){
+			if (!books.get(i).n_catName.contentEquals(category)) continue;
+			avg += books.get(i).title_amount_meaninful_words;
+			counter++;
+		}
+		if (counter>0)
+			return avg/counter;
+		else return -1;
+	}
+
+	public  double avgMeaninfulCharactersTitle(String category) {
+		double counter = 0;
+		double avg = 0;
+		for (int i = 0 ; i<books.size();i++){
+			if (!books.get(i).n_catName.contentEquals(category)) continue;
+			avg += books.get(i).n_title_meaninfull.length();
+			counter++;
+		}
+		if (counter>0)
+			return avg/counter;
+		else return -1;
+	}
+	
 	/**
 	 * 
 	 * @return the list of categories. 

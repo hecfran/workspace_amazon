@@ -14,11 +14,19 @@ public class bookInfo {
 	 public String descr;
 	 public double rating;
 	 public double nRatings;
-	 
+
+	 public String lang;
+	 public double langConf;
+	 public String langReliable;
+
 	 
 	 public int title_non_words = -1;
 	 public List<String> non_words = new ArrayList<String>();
-	 
+	 public int title_amount_words = -1; 
+	 public String n_title_meaninfull ="";
+	 public int title_amount_meaninful_words = -1; 
+
+
 	 
 	 
 

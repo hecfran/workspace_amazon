@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import LanguageTools.WikipediaLanguageModel;
 import LanguageTools.langMod;
@@ -28,9 +29,9 @@ public class TextAna {
 
 		WikipediaLanguageModel wlm = new WikipediaLanguageModel();
 		
-
+		listMeaninfulWords lmw = new listMeaninfulWords();
 		
-		BooksData l = GetRows(-100);
+		BooksData l = GetRows(-100,lmw);
 		checkNewWordsTitle(l,wlm);
 		
 		HDicionario hd = l.getHDicTitle();		
@@ -44,13 +45,26 @@ public class TextAna {
 
 		for(String cat: list){
 			HDicionario di = l.getHDicTitle(cat);
-			System.out.println("Category: "+ cat);
-			System.out.println("Examples: " + di.counter );
+			System.out.println("Category: \t"+ cat);
+			System.out.println("Examples: \t" + di.counter );
 			di.sortAndPrintValues(20);
-			System.out.println("Perplexity: "+ di.perplexity());
+			System.out.println("Perplexity: \t"+ di.perplexity());
+			System.out.println("averge words title: \t" + l.avgLengthWords(cat));
+			System.out.println("averge characters title: \t" + l.avgCharactersTitle(cat));
+			System.out.println("averge meaninful words in title: \t" + l.avgMeaninfulWordsTitle(cat));
+			System.out.println("averge meaninful characters in title: \t" + l.avgMeaninfulCharactersTitle(cat));
+			
+			
+			
+			
+			
+			
+			
+			
 			System.out.println();
 		}
 		
+		showLanguageDist(l);
 		System.out.println("END");
 
 		
@@ -62,6 +76,29 @@ public class TextAna {
 		System.out.println("Prob of Facebook" + 1000*hd.probability("facebook"));
 		System.out.println("perplexity" + hd.perplexity());
 */
+	}
+	
+	private static void showLanguageDist(BooksData bd){
+		java.util.Hashtable<String, Integer> D = new java.util.Hashtable<String, Integer>();
+		for(bookInfo b: bd.books){
+			String lang = b.lang;
+			int counter = 0;
+			if (D.containsKey(lang))
+				counter = D.get(lang);
+			D.put(lang, counter+1);			
+		}
+		
+		for ( Map.Entry<String, Integer> entry : D.entrySet() ) {
+			System.out.println(entry.getKey() + " books:"+entry.getValue() + " percentage:" +100*entry.getValue()/(double)bd.books.size()+ "%");
+
+		}
+		
+
+		/*for(String l: languages){
+			System.out.println(l + ":" +(double)D.get(l)/(double)bd.books.size());
+		}*/
+		
+		
 	}
 
 	/// this is garbage waiting to be removed. 
@@ -91,16 +128,27 @@ public class TextAna {
 	
 	
 	public static void checkNewWordsTitle (BooksData bd,langMod lm){
+		
+		int englishBooks = 0;
+		int titlesWithNewWords = 0;
 		for(bookInfo b :bd.books){
+			if (!b.lang.contentEquals("en")) continue;
+			boolean neww = false;
+			englishBooks++;
 			String[]  ws = b.n_title.split(" ");
 			for (String w : ws) 
 				if (w.length()>0)
 				{
-					if (!lm.exist(w))
-						System.out.println(w);		
+					if (!lm.exist(w)){
+						System.out.println(w);
+						neww = true;
+					}
+					
 				}
+			if (neww) titlesWithNewWords++;
 						
 		}
+		System.out.println("Percentage of books with new words: " + (double)titlesWithNewWords/(double)englishBooks*100.0);
 	}
 			
 			
@@ -234,16 +282,18 @@ public class TextAna {
 	
 	
 	//public static List<bookInfo> GetRows() throws Exception, IOException{
-	public static BooksData GetRows(int limit) throws Exception, IOException{
+	public static BooksData GetRows(int limit,listMeaninfulWords lmw) throws Exception, IOException{
 		
 		// TODO Auto-generated method stub
 		//List<bookInfo> res= new LinkedList<bookInfo>();
 		BooksData res =  new BooksData();
 		String line;
-		//0      1           2        3        4          5                   6          7         8                9         10                11           12        13    14      15      16      17
-		//"id"	"catName"	"title"	"descr"	"rating"	"nRatings"	"positionInList"	"size"	"pageNum"	"paperPrice"	"kindlePrice"	"hardcPrice"	"r1"	"r2"	"r3"	"r4"	"r5"	"daysSinseRelease"
+		//0      1           2        3        4          5                   6          7         8                9         10                11           12        13    14      15      16      17						18		19		          20
+	//	"id"	"catName"	"title"	"descr"	"rating"	"nRatings"	"positionInList"	"size"	"pageNum"	"paperPrice"	"kindlePrice"	"hardcPrice"	"r1"	"r2"	"r3"	"r4"	"r5"	"daysSinseRelease"	"Language"	"Reliable"	"Confidence"
+
+		
 		try (
-		    InputStream fis = new FileInputStream("..\\oneTableDataForHector.txt");
+		    InputStream fis = new FileInputStream("..\\oneTableData.csv");
 		    InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
 		    BufferedReader br = new BufferedReader(isr);
 		) {
@@ -259,6 +309,21 @@ public class TextAna {
 		    	b.descr = clean(s[3]);
 		    	b.rating  = Double.parseDouble(s[4]);
 		    	b.nRatings  = Double.parseDouble(s[5]);
+		    	
+		    	b.lang = s[18];
+		    	b.langReliable = s[19];
+		    	b.langConf = Double.parseDouble(s[20]);
+
+		    	String[] title = b.n_title.split(" ");
+		    	b.title_amount_words = title.length;
+		    	
+		    	for (int i = 0 ; i<title.length; i++)
+		    		if (lmw.setA.contains(title[i]))		    		
+		    			b.n_title_meaninfull = b.n_title_meaninfull+ " " + title[i];		    				    	
+    			b.n_title_meaninfull = b.n_title_meaninfull.trim();	    		
+		    	
+    			b.title_amount_meaninful_words =  b.n_title_meaninfull.split(" ").length;
+		    	
 		    	res.add(b);
 		    	if (limit == 0) break;
 		    }

@@ -5,8 +5,8 @@ import java.util.Hashtable;
 
 public class extendTable {
 	BooksData l;
-	public extendTable() throws Exception{
-		l = TextAna.GetRows(-100);
+	public extendTable(listMeaninfulWords lmw) throws Exception{
+		l = TextAna.GetRows(-100, lmw);
 		calcNonWords();
 		
 	/*	for(int x= l.books.size(); x>1; x--){
