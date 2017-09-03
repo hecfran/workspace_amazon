@@ -25,6 +25,16 @@ public class bookInfo {
 	 public int title_amount_words = -1; 
 	 public String n_title_meaninfull ="";
 	 public int title_amount_meaninful_words = -1; 
+	 
+	 public int descr_non_words = -1;
+//	 public List<String> non_words = new ArrayList<String>();
+	 public int descr_amount_words = -1; 
+	 public String descr_meaninfull ="";
+	 public int descr_amount_meaninful_words = -1;
+
+	public String id; 
+	 
+	 
 
 
 	 

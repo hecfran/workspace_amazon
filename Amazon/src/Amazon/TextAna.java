@@ -53,8 +53,11 @@ public class TextAna {
 			System.out.println("averge characters title: \t" + l.avgCharactersTitle(cat));
 			System.out.println("averge meaninful words in title: \t" + l.avgMeaninfulWordsTitle(cat));
 			System.out.println("averge meaninful characters in title: \t" + l.avgMeaninfulCharactersTitle(cat));
-			
-			
+			//System.out.println("DESCRIPTION");
+			System.out.println("averge words description: \t" + l.avgLengthWordsDES(cat));
+			System.out.println("averge characters description: \t" + l.avgCharactersDES(cat));
+			System.out.println("averge meaninful words in description: \t" + l.avgMeaninfulWordsDES(cat));
+			System.out.println("averge meaninful characters in description: \t" + l.avgMeaninfulCharactersDES(cat));			
 			
 			
 			
@@ -65,6 +68,7 @@ public class TextAna {
 		}
 		
 		showLanguageDist(l);
+		l.saveFile();
 		System.out.println("END");
 
 		
@@ -297,12 +301,17 @@ public class TextAna {
 		    InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
 		    BufferedReader br = new BufferedReader(isr);
 		) {
-			br.readLine();
+			String t = br.readLine();
+			System.out.println(t);
 		    while ((line = br.readLine()) != null) {
 		    	limit--;
 		    
-		    	bookInfo b = new bookInfo();		    	
+		    	bookInfo b = new bookInfo();		
+		    	
+		    	
 		    	String s[] = line.split("\t");
+		    	b.id = s[0];
+		    	
 //		    	System.out.println(clean(s[2]));
 		    	b.n_catName = clean(s[1]);
 		    	b.n_title = clean(s[2]);
@@ -323,7 +332,19 @@ public class TextAna {
     			b.n_title_meaninfull = b.n_title_meaninfull.trim();	    		
 		    	
     			b.title_amount_meaninful_words =  b.n_title_meaninfull.split(" ").length;
+		    	//////now description;
+    			
+    			String[] des = b.descr.split(" ");
+		    	b.descr_amount_words = des.length;
 		    	
+		    	for (int i = 0 ; i<des.length; i++)
+		    		if (lmw.setA.contains(des[i]))		    		
+		    			b.descr_meaninfull = b.descr_meaninfull + " " + des[i];		    				    	
+    			b.descr_meaninfull = b.descr_meaninfull.trim();	    		
+		    	
+    			b.descr_amount_meaninful_words =  b.descr_meaninfull.split(" ").length;
+    			
+    			
 		    	res.add(b);
 		    	if (limit == 0) break;
 		    }
